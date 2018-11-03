@@ -14,5 +14,7 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/robot_orientation.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/Spikes-Lib.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/splines_lib.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix_WPIAPI-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix_WPIAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
