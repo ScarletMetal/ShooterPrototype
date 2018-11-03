@@ -10,8 +10,8 @@ package com.spikes2212.robot;
 import java.util.function.Supplier;
 
 import com.spikes2212.dashboard.ConstantHandler;
-import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
 
+import com.spikes2212.robot.commands.ShootWithPIDOnTalon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -22,11 +22,17 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	
 	private static final Supplier<Double> shooterPower = ConstantHandler.addConstantDouble("shooter speed", 0.1);
-	
+
+	private static final Supplier<Double> SHOOTER_SETPOINT = ConstantHandler.addConstantDouble("shooter setpoint", 6);
+	private static final Supplier<Double> SHOOTER_KP = ConstantHandler.addConstantDouble("shooter kp", 0.5);
+	private static final Supplier<Double> SHOOTER_KI = ConstantHandler.addConstantDouble("shooter ki", 0);
+	private static final Supplier<Double> SHOOTER_KD = ConstantHandler.addConstantDouble("shooter kd", 0);
+
 	private Joystick joystick = new Joystick(0);
 	public OI () {
 		JoystickButton btn = new JoystickButton(joystick, 1);
 		
-		btn.whileHeld(new MoveBasicSubsystem(Robot.shooter, shooterPower));
+		btn.whileHeld(new ShootWithPIDOnTalon(Robot.shooter, SubsystemComponents.Shooter.ShooterTalon1,
+				SHOOTER_SETPOINT, SHOOTER_KD, SHOOTER_KI, SHOOTER_KD));
 	}
 }
