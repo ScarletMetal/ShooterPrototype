@@ -9,9 +9,9 @@ package com.spikes2212.robot;
 
 import com.spikes2212.dashboard.DashBoardController;
 import com.spikes2212.genericsubsystems.BasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.BasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.commands.MoveBasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.utils.limitationFunctions.Limitless;
+//import com.spikes2212.genericsubsystems.basicSubsystem.BasicSubsystem;
+//import com.spikes2212.genericsubsystems.basicSubsystem.commands.MoveBasicSubsystem;
+//import com.spikes2212.genericsubsystems.basicSubsystem.utils.limitationFunctions.Limitless;
 import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
 import com.spikes2212.genericsubsystems.utils.limitationFunctions.Limitless;
 
@@ -45,7 +45,8 @@ public class Robot extends TimedRobot {
 		dbc = new DashBoardController();
 		
 		SmartDashboard.putData("slow shooter", new MoveBasicSubsystem(shooter, 0.1));
-		dbc.addDouble("Talon Encoder Value", SubsystemComponents.Shooter.encoder::pidGet);
+		dbc.addDouble("Talon Encoder Velocity", () -> (double) SubsystemComponents.Shooter.ShooterTalon1.getSelectedSensorVelocity() / 1024);
+		dbc.addDouble("Talon Encoder Position", () -> (double) SubsystemComponents.Shooter.ShooterTalon1.getSelectedSensorPosition() / 1024);
 		oi = new OI();
 	}
 
@@ -61,6 +62,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		dbc.update();
 		Scheduler.getInstance().run();
 	}
 

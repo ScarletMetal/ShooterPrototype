@@ -11,6 +11,9 @@ import java.util.function.Supplier;
 
 import com.spikes2212.dashboard.ConstantHandler;
 import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
+import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystemWithPID;
+import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystemWithPIDForSpeed;
+import com.spikes2212.utils.PIDSettings;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -22,11 +25,17 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	
 	private static final Supplier<Double> shooterPower = ConstantHandler.addConstantDouble("shooter speed", 0.1);
+	private static final Supplier<Double> SHOOTER_KP = ConstantHandler.addConstantDouble("Shooter KP", 0.5);
+	private static final Supplier<Double> SHOOTER_KI = ConstantHandler.addConstantDouble("Shooter KI", 0);
+	private static final Supplier<Double> SHOOTER_KD = ConstantHandler.addConstantDouble("Shooter KD", 0);
+	private static final Supplier<Double> SHOOTER_TARGET_SPEED = ConstantHandler.addConstantDouble("Shooter Target", 6);
 	
 	private Joystick joystick = new Joystick(0);
 	public OI () {
 		JoystickButton btn = new JoystickButton(joystick, 1);
+		JoystickButton btnPID = new JoystickButton(joystick, 2);
 		
-		btn.whileHeld(new MoveBasicSubsystem(Robot.shooter, shooterPower));
+//		btn.whileHeld(new MoveBasicSubsystem(Robot.shooter, shooterPower));
+		btn.whileHeld(new MoveBasicSubsystemWithPIDForSpeed(Robot.shooter, SubsystemComponents.Shooter.encoder, SHOOTER_TARGET_SPEED, new PIDSettings(SHOOTER_KP.get(), SHOOTER_KI.get(), SHOOTER_KD.get(), 1, 1), 1));
 	}
 }

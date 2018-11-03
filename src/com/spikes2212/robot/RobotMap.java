@@ -15,7 +15,7 @@ package com.spikes2212.robot;
  */
 public class RobotMap {
 	public static interface CAN {
-		public static final int SHOOTER_1 = 0;
-		public static final int SHOOTER_2 = 1;
+		public static final int SHOOTER_1 = 1;
+		public static final int SHOOTER_2 = 0;
 	}
 }

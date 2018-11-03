@@ -14,7 +14,7 @@ public class SubsystemComponents {
 			ShooterTalon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, encoderKTimeoutms);
 			ShooterTalon1.setSensorPhase(true);
 
-			encoder = new TalonSRXEncoder(() -> (double) ShooterTalon1.getSelectedSensorVelocity());
+			encoder = new TalonSRXEncoder();
 		}
 	}
 }
