@@ -8,7 +8,7 @@ public class SubsystemComponents {
 		public static WPI_TalonSRX ShooterTalon2 = new WPI_TalonSRX(RobotMap.CAN.SHOOTER_2);
 		
 		static {
-			
+//			ShooterTalon1.setInverted(true);
 		}
 	}
 }
