@@ -11,4 +11,13 @@ public class SubsystemComponents {
 //			ShooterTalon1.setInverted(true);
 		}
 	}
+
+	public static class Feeder {
+		public static WPI_TalonSRX FEEDER_TALON_1 = new WPI_TalonSRX(RobotMap.CAN.FEEDER_1);
+		public static WPI_TalonSRX FEEDER_TALON_2 = new WPI_TalonSRX(RobotMap.CAN.FEEDER_2);
+
+		static {
+			FEEDER_TALON_1.setInverted(true);
+		}
+	}
 }
