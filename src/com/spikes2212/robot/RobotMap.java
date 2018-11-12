@@ -17,5 +17,8 @@ public class RobotMap {
 	public static interface CAN {
 		public static final int SHOOTER_1 = 0;
 		public static final int SHOOTER_2 = 1;
+
+		public static final int FEEDER_1 = 2;
+		public static final int FEEDER_2 = 3;
 	}
 }
