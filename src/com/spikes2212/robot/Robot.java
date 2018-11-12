@@ -9,14 +9,14 @@ package com.spikes2212.robot;
 
 import com.spikes2212.dashboard.DashBoardController;
 import com.spikes2212.genericsubsystems.BasicSubsystem;
+import com.spikes2212.genericsubsystems.basicSubsystem.BasicSubsystem;
+import com.spikes2212.genericsubsystems.basicSubsystem.utils.limitationFunctions.Limitless;
 import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
 import com.spikes2212.genericsubsystems.utils.limitationFunctions.Limitless;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI oi;
 	public static BasicSubsystem shooter;
+	public static BasicSubsystem feeder;
 	public static DashBoardController dbc;
 
 	/**
@@ -37,8 +38,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		shooter = new BasicSubsystem((new SpeedControllerGroup(SubsystemComponents.Shooter.ShooterTalon1,
-				SubsystemComponents.Shooter.ShooterTalon2))::set, new Limitless());
+		shooter = new BasicSubsystem((new SpeedControllerGroup(SubsystemComponents.Shooter.SHOOTER_TALON_1,
+				SubsystemComponents.Shooter.SHOOTER_TALON_2))::set, new Limitless());
+
+		feeder = new BasicSubsystem(new SpeedControllerGroup(SubsystemComponents.Feeder.FEEDER_TALON_1,
+				SubsystemComponents.Feeder.FEEDER_TALON_2)::set, new Limitless());
 		dbc = new DashBoardController();
 		
 		SmartDashboard.putData("slow shooter", new MoveBasicSubsystem(shooter, 0.1));
