@@ -10,9 +10,14 @@ package com.spikes2212.robot;
 import java.util.function.Supplier;
 
 import com.spikes2212.dashboard.ConstantHandler;
-
+import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
+import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystemWithPIDForSpeed;
+import com.spikes2212.robot.commands.RiseToSpeed;
 import com.spikes2212.robot.commands.ShootWithPIDOnTalon;
+import com.spikes2212.utils.PIDSettings;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -21,7 +26,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	
-	private static final Supplier<Double> shooterPower = ConstantHandler.addConstantDouble("shooter speed", 0.1);
+	public static final Supplier<Double> shooterPower = ConstantHandler.addConstantDouble("shooter speed", 0.1);
+	public static final Supplier<Double> speedTimeout = ConstantHandler.addConstantDouble("speed timeout", 0.5);
+	public static final Supplier<Double> speedJumps  = ConstantHandler.addConstantDouble("speed jumps", 10);
 
 	private static final Supplier<Double> SHOOTER_SETPOINT = ConstantHandler.addConstantDouble("shooter setpoint", 6);
 	private static final Supplier<Double> SHOOTER_KP = ConstantHandler.addConstantDouble("shooter kp", 0.5);
@@ -30,9 +37,14 @@ public class OI {
 
 	private Joystick joystick = new Joystick(0);
 	public OI () {
-		JoystickButton btn = new JoystickButton(joystick, 1);
 		
-		btn.whileHeld(new ShootWithPIDOnTalon(Robot.shooter, SubsystemComponents.Shooter.ShooterTalon1,
-				SHOOTER_SETPOINT, SHOOTER_KD, SHOOTER_KI, SHOOTER_KD));
+		/*btn.whileHeld(new MoveBasicSubsystemWithPIDForSpeed(Robot.shooter,
+				SubsystemComponents.Shooter.encoder, () -> SHOOTER_SETPOINT.get() * 1024,
+				new PIDSettings(SHOOTER_KP.get(), SHOOTER_KI.get(), SHOOTER_KD.get(), 1, 0), 0.5));*/
+		
+		JoystickButton btn2 = new JoystickButton(joystick, 1);
+		
+		btn2.whileHeld(new RiseToSpeed(Robot.shooter, shooterPower, speedTimeout, speedJumps));
+		
 	}
 }

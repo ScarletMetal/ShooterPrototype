@@ -9,11 +9,9 @@ package com.spikes2212.robot;
 
 import com.spikes2212.dashboard.DashBoardController;
 import com.spikes2212.genericsubsystems.BasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.BasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.commands.MoveBasicSubsystem;
-import com.spikes2212.genericsubsystems.basicSubsystem.utils.limitationFunctions.Limitless;
 import com.spikes2212.genericsubsystems.commands.MoveBasicSubsystem;
 import com.spikes2212.genericsubsystems.utils.limitationFunctions.Limitless;
+import com.spikes2212.robot.commands.RiseToSpeed;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -40,12 +38,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		shooter = new BasicSubsystem((new SpeedControllerGroup(SubsystemComponents.Shooter.ShooterTalon1,
-				SubsystemComponents.Shooter.ShooterTalon2))::set, new Limitless());
+		shooter = new BasicSubsystem((speed) -> {
+			SubsystemComponents.Shooter.ShooterTalon1.set(speed);
+			SubsystemComponents.Shooter.ShooterTalon2.set(speed);
+		}, new Limitless());
 		dbc = new DashBoardController();
-		
-		SmartDashboard.putData("slow shooter", new MoveBasicSubsystem(shooter, 0.1));
-		dbc.addDouble("Talon Encoder Value", SubsystemComponents.Shooter.encoder::pidGet);
+		// dbc.addDouble("TalonSRX Velocity", () ->
+		// SubsystemComponents.Shooter.encoder.pidGet() / 1024);
+		SmartDashboard.putData("shoot", new MoveBasicSubsystem(shooter, SubsystemConstants.Shooter.SHOOTER_SPEED));
+		SmartDashboard.putData("Rise", new RiseToSpeed(Robot.shooter, OI.shooterPower, OI.speedTimeout, OI.speedJumps));
 		oi = new OI();
 	}
 
@@ -71,7 +72,8 @@ public class Robot extends TimedRobot {
 	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
 	 * getString code to get the auto name from the text box below the Gyro
 	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
+	 * <p>
+	 * You can add additional auto modes by adding additional commands to the
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */

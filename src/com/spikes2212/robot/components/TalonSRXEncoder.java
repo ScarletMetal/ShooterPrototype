@@ -20,7 +20,7 @@ public class TalonSRXEncoder implements PIDSource {
 
     @Override
     public PIDSourceType getPIDSourceType() {
-        return null;
+        return PIDSourceType.kRate;
     }
 
     @Override
